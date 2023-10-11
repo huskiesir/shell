@@ -1,7 +1,8 @@
 #!/bin/bash
  
 # create self-signed server certificate:
- 
+
+read -p "Enter your IP [eg:192.168.0.1]: " IP
 read -p "Enter your domain [eg:liuning.fit2cloud.com]: " DOMAIN
 read -p "Enter your country [eg:CN 注:控制在2个字符以内]: " COUNTRY
 read -p "Enter your province [eg:shandong]: " PROVINCE
@@ -39,7 +40,10 @@ echo "[SAN]" >> $DOMAIN.ext
 echo "authorityKeyIdentifier=keyid,issuer" >> $DOMAIN.ext
 echo "basicConstraints=CA:FALSE" >> $DOMAIN.ext
 echo "keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment" >> $DOMAIN.ext
-echo "subjectAltName = DNS:$DOMAIN" >> $DOMAIN.ext
+echo "subjectAltName = @alt_names" >> $DOMAIN.ext
+echo "[alt_names]" >> $DOMAIN.ext
+echo "DNS.1 = $DOMAIN" >> $DOMAIN.ext
+echo "IP.1 = $IP" >> $DOMAIN.ext
 
 # 根据根证书私钥及根证书-CA CA-$DOMAIN.crt -CAkey CA-$DOMAIN.key、自签名证书申请文件 -in $DOMAIN.csr、自签名证书扩展文件 -extfile $DOMAIN.ext,生成自签名证书 -out $DOMAIN.crt
 
