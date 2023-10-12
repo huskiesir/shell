@@ -1,5 +1,5 @@
 #!/bin/bash
- 
+# author: liuning 
 # create self-signed server certificate:
 
 read -p "Enter your IP [eg:192.168.0.1]: " IP
